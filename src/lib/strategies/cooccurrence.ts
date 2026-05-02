@@ -12,7 +12,7 @@ export const cooccurrenceStrategy: StrategyDef = {
 	emoji: "🔗",
 	generate(draws: Draw[], config: ProductConfig): Suggestion {
 		// Build co-occurrence matrix (use last 300 draws for recency)
-		const recentDraws = draws.slice(-300);
+		const recentDraws = draws;
 		const pairCount = new Map<string, number>();
 		const singleCount = new Map<number, number>();
 
@@ -33,7 +33,8 @@ export const cooccurrenceStrategy: StrategyDef = {
 		const lifts: { a: number; b: number; lift: number; count: number }[] = [];
 
 		for (const [key, count] of pairCount.entries()) {
-			if (count < 3) continue; // min support
+			const minSupport = Math.max(3, Math.floor(draws.length * 0.01));
+			if (count < minSupport) continue; // adaptive min support
 			const [a, b] = key.split("-").map(Number);
 			const pA = (singleCount.get(a) || 0) / N;
 			const pB = (singleCount.get(b) || 0) / N;

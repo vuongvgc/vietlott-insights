@@ -46,7 +46,7 @@ Kết hợp **3 số nóng + 3 số lạnh**, đồng thời đảm bảo phân 
 
 ### 🔗 Cặp Số Hay Đi Cùng (Co-occurrence)
 
-Phân tích 300 kỳ gần nhất để tìm **các cặp số thường xuất hiện cùng nhau** (dùng chỉ số lift từ association rule mining). Sau đó mở rộng greedy: thêm từng số có tổng co-occurrence cao nhất với bộ đã chọn.
+Phân tích **toàn bộ lịch sử** (~1340+ kỳ Power 6/55, ~1307+ kỳ Mega 6/45) để tìm **các cặp số thường xuất hiện cùng nhau** (dùng chỉ số lift từ association rule mining). Sau đó mở rộng greedy: thêm từng số có tổng co-occurrence cao nhất với bộ đã chọn.
 
 **Thuật toán**:
 
@@ -57,7 +57,7 @@ Phân tích 300 kỳ gần nhất để tìm **các cặp số thường xuất 
 
 **Cơ sở**: Nếu có hidden pattern nào trong máy quay, co-occurrence sẽ phát hiện. Trong thực tế, lift của hầu hết cặp ≈ 1.0 (không có pattern).
 
-**Hạn chế**: Với mẫu nhỏ (~300 kỳ × C(6,2) = 4500 cặp), nhiều cặp có lift cao chỉ do ngẫu nhiên (noise, không phải signal).
+**Hạn chế**: Dù dùng toàn bộ lịch sử (~1340 kỳ × 15 cặp/kỳ ≈ 20,100 quan sát), lift cao vẫn có thể do ngẫu nhiên. Áp dụng ngưỡng min-support thích ứng (1% số kỳ) để lọc bớt noise.
 
 ---
 
