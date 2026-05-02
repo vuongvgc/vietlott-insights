@@ -27,16 +27,28 @@ export async function ProductPage({ productKey }: ProductPageProps) {
 	const backtestResults = backtestAll(draws, ALL_STRATEGIES, config, 100);
 	const snapshots = getSnapshots(productKey);
 
+	const introText =
+		productKey === "power655"
+			? `Phân tích ${draws.length} kỳ quay Vietlott Power 6/55 từ ${draws[0]?.date ?? "N/A"}. Thống kê tần suất xuất hiện, số nóng/lạnh, cặp đi cùng (co-occurrence), và gợi ý bộ 6 số theo 6 chiến lược khác nhau — kèm backtest 100 kỳ gần nhất để đánh giá hiệu quả thực tế.`
+			: `Phân tích ${draws.length} kỳ quay Vietlott Mega 6/45 từ ${draws[0]?.date ?? "N/A"}. Thống kê tần suất, số nóng/lạnh, cặp đi cùng, và gợi ý bộ 6 số (1–45) theo 6 chiến lược — kèm backtest 100 kỳ gần nhất.`;
+
 	return (
 		<div className="min-h-screen bg-background">
 			<Nav active={productKey} />
 			<main className="container mx-auto px-4 py-8 space-y-10 max-w-5xl">
 				{/* Header */}
 				<div>
-					<h1 className="text-3xl font-bold">{config.label}</h1>
+					<h1 className="text-3xl font-bold">
+						{productKey === "power655"
+							? "Phân tích Power 6/55 — Tần suất, số nóng/lạnh & gợi ý"
+							: "Thống kê Mega 6/45 — Tần suất, gợi ý bộ số"}
+					</h1>
 					<p className="text-muted-foreground mt-1">
 						Quay {config.drawDays} · Chọn {config.pick} số từ {config.range[0]}-
 						{config.range[1]}
+					</p>
+					<p className="text-sm text-muted-foreground mt-2 max-w-3xl">
+						{introText}
 					</p>
 				</div>
 

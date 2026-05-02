@@ -50,11 +50,20 @@ App cá nhân phân tích xổ số Vietlott (Power 6/55, Mega 6/45) và gợi �
 ```
 src/
 ├── app/
-│   ├── layout.tsx          # Root layout, lang="vi", metadata
+│   ├── layout.tsx          # Root layout, lang="vi", metadata, JSON-LD, metadataBase
 │   ├── page.tsx            # Redirect → /power-655
 │   ├── globals.css         # Tailwind v4 imports
-│   ├── power-655/page.tsx  # Trang Power 6/55 (RSC)
-│   └── mega-645/page.tsx   # Trang Mega 6/45 (RSC)
+│   ├── sitemap.ts          # Sitemap (3 URL, daily/weekly)
+│   ├── robots.ts           # robots.txt (allow all + sitemap link)
+│   ├── opengraph-image.tsx # Dynamic OG image root (1200×630, tím gradient)
+│   ├── icon.tsx            # Dynamic favicon 32×32 (chữ "V")
+│   ├── apple-icon.tsx      # Dynamic Apple Touch Icon 180×180
+│   ├── power-655/
+│   │   ├── page.tsx        # Trang Power 6/55 (RSC) + per-page metadata
+│   │   └── opengraph-image.tsx  # OG image riêng Power 6/55
+│   └── mega-645/
+│       ├── page.tsx        # Trang Mega 6/45 (RSC) + per-page metadata
+│       └── opengraph-image.tsx  # OG image riêng Mega 6/45
 ├── components/
 │   ├── ProductPage.tsx     # Component chính: fetch data → render tất cả sections
 │   ├── Nav.tsx             # Thanh điều hướng giữa 2 sản phẩm
@@ -131,19 +140,20 @@ Mỗi strategy export `StrategyDef { id, name, description, generate(draws, conf
 
 Ghi lại WHY của các quyết định kiến trúc quan trọng:
 
-| Quyết định                                      | Lý do                                                                                                                                                                                    |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Không dùng database**                         | App cá nhân, data có sẵn trên GitHub. ISR 1h đủ tươi. Thêm DB = thêm infra phải bảo trì → vi phạm triết lý vibe-code.                                                                    |
-| **Fetch JSONL trực tiếp từ GitHub**             | Repo `vietvudanh/vietlott-data` cập nhật đều bởi cộng đồng. Raw URL ổn định, miễn phí, không cần API key.                                                                                |
-| **ISR 1 giờ thay vì SSG thuần**                 | Data xổ số cập nhật vài lần/tuần. ISR 1h cân bằng giữa tươi mới và performance.                                                                                                          |
-| **RSC (Server Components) cho data fetching**   | Fetch ở server → không ship data-fetching code xuống client. Trang nhẹ hơn.                                                                                                              |
-| **Co-occurrence dùng toàn bộ lịch sử**          | Ban đầu dùng 300 kỳ gần nhất, nhưng với ~1340 kỳ Power 6/55 thì đủ lớn cho lift ổn định. Min-support 1% (~13 lần) lọc bớt noise do ngẫu nhiên.                                           |
-| **Random strategy làm baseline**                | Trung thực: cho user thấy rằng các strategy khác KHÔNG thực sự tốt hơn random về kỳ vọng. Backtest minh chứng.                                                                           |
-| **Tiếng Việt cho UI**                           | App cá nhân của người Việt, dùng cho bản thân.                                                                                                                                           |
-| **Không dùng client-side fetch**                | Tránh loading state, tránh CORS, tận dụng RSC + ISR.                                                                                                                                     |
-| **Snapshot lưu vào repo + GitHub Action daily** | Cách B (lưu thật) thay vì replay mỗi lần render. Lịch sử cố định dù strategy thay đổi sau. GitHub Action chạy 23:00 VN hàng ngày, commit tự động. Không cần version strategy — tin user. |
-| **Random dùng seeded RNG (mulberry32)**         | Seed = drawId → deterministic, reproducible trong snapshot. Không dùng Math.random cho snapshot.                                                                                         |
-| **Bonus number cho Power 6/55**                 | JSONL lưu 7 số, số cuối là bonus. `fetch-data.ts` tách `Draw.bonus`. Dùng để phân biệt Jackpot 1/2 và Giải Nhất/Nhì.                                                                     |
+| Quyết định                                      | Lý do                                                                                                                                                                                                                                                                                                                                                        |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Không dùng database**                         | App cá nhân, data có sẵn trên GitHub. ISR 1h đủ tươi. Thêm DB = thêm infra phải bảo trì → vi phạm triết lý vibe-code.                                                                                                                                                                                                                                        |
+| **Fetch JSONL trực tiếp từ GitHub**             | Repo `vietvudanh/vietlott-data` cập nhật đều bởi cộng đồng. Raw URL ổn định, miễn phí, không cần API key.                                                                                                                                                                                                                                                    |
+| **ISR 1 giờ thay vì SSG thuần**                 | Data xổ số cập nhật vài lần/tuần. ISR 1h cân bằng giữa tươi mới và performance.                                                                                                                                                                                                                                                                              |
+| **RSC (Server Components) cho data fetching**   | Fetch ở server → không ship data-fetching code xuống client. Trang nhẹ hơn.                                                                                                                                                                                                                                                                                  |
+| **Co-occurrence dùng toàn bộ lịch sử**          | Ban đầu dùng 300 kỳ gần nhất, nhưng với ~1340 kỳ Power 6/55 thì đủ lớn cho lift ổn định. Min-support 1% (~13 lần) lọc bớt noise do ngẫu nhiên.                                                                                                                                                                                                               |
+| **Random strategy làm baseline**                | Trung thực: cho user thấy rằng các strategy khác KHÔNG thực sự tốt hơn random về kỳ vọng. Backtest minh chứng.                                                                                                                                                                                                                                               |
+| **Tiếng Việt cho UI**                           | App cá nhân của người Việt, dùng cho bản thân.                                                                                                                                                                                                                                                                                                               |
+| **Không dùng client-side fetch**                | Tránh loading state, tránh CORS, tận dụng RSC + ISR.                                                                                                                                                                                                                                                                                                         |
+| **Snapshot lưu vào repo + GitHub Action daily** | Cách B (lưu thật) thay vì replay mỗi lần render. Lịch sử cố định dù strategy thay đổi sau. GitHub Action chạy 23:00 VN hàng ngày, commit tự động. Không cần version strategy — tin user.                                                                                                                                                                     |
+| **Random dùng seeded RNG (mulberry32)**         | Seed = drawId → deterministic, reproducible trong snapshot. Không dùng Math.random cho snapshot.                                                                                                                                                                                                                                                             |
+| **Bonus number cho Power 6/55**                 | JSONL lưu 7 số, số cuối là bonus. `fetch-data.ts` tách `Draw.bonus`. Dùng để phân biệt Jackpot 1/2 và Giải Nhất/Nhì.                                                                                                                                                                                                                                         |
+| **SEO cơ bản (dynamic OG, sitemap, JSON-LD)**   | metadataBase = `https://vietlott-insights.vercel.app`. Per-page metadata + canonical. Dynamic OG image qua `next/og` ImageResponse (không cần file tĩnh, không cần font). sitemap.ts + robots.ts theo convention Next.js 16. JSON-LD WebSite ở root layout. Dynamic favicon/apple-icon (chữ "V"). H1 chứa keyword chính. Intro paragraph cho Google snippet. |
 
 ---
 
@@ -179,6 +189,7 @@ npx shadcn@latest add <component>  # Thêm shadcn UI component
 - [ ] Thêm sản phẩm: Max 3D, Keno (nếu có data JSONL)
 - [ ] Dark mode
 - [x] ~~So sánh kết quả chiến lược theo thời gian~~ → đã triển khai qua Snapshot (SnapshotSummary + SnapshotTable)
+- [x] ~~SEO cơ bản~~ → metadata, OG image, sitemap, robots, JSON-LD, favicon, on-page optimization
 
 ---
 
@@ -192,6 +203,9 @@ npx shadcn@latest add <component>  # Thêm shadcn UI component
 - **`git config user.email`** đang là email công ty (`@manabie.com`) — cần đổi trước khi push lên repo cá nhân.
 - **Snapshot JSON files** (`data/snapshots/*.json`) được GitHub Action commit tự động. KHÔNG sửa tay. Muốn reset → xóa file → chạy `npm run snapshot`.
 - **Random strategy trong snapshot** dùng seeded RNG (seed = drawId). KHÔNG đổi hash function nếu muốn snapshot cũ reproducible.
+- **metadataBase** hardcoded `https://vietlott-insights.vercel.app`. Nếu đổi domain → sửa trong `layout.tsx`, `sitemap.ts`, `robots.ts`.
+- **OG image dùng ImageResponse** — chỉ hỗ trợ subset CSS (flexbox, không grid). Xem https://og-playground.vercel.app nếu cần debug layout.
+- **GSC verification** — field `verification.google` trong `layout.tsx` đang comment out. Paste token sau khi tạo property trong Google Search Console.
 
 ---
 
