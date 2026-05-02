@@ -98,6 +98,30 @@ Chọn **hoàn toàn ngẫu nhiên** 6 số trong dải.
 
 > **Kết luận**: Nếu bạn chỉ chọn 1 chiến lược, hãy chọn **⭐ Unpopular** — nó không giúp bạn trúng nhiều hơn, nhưng nếu trúng thì tiền thưởng kỳ vọng cao hơn.
 
+## 📊 Lịch sử so sánh chiến lược
+
+Mỗi ngày, GitHub Action tự động:
+
+1. Fetch dữ liệu kỳ quay mới nhất
+2. Replay 6 chiến lược trên dữ liệu trước mỗi kỳ (không leak tương lai)
+3. So sánh bộ số gợi ý với kết quả thực → xác định trúng giải mấy
+4. Lưu vào `data/snapshots/{power655,mega645}.json` (100 kỳ gần nhất)
+
+**Cấu trúc giải thưởng:**
+
+| Power 6/55              | Mega 6/45       |
+| ----------------------- | --------------- |
+| 6/6 + bonus → Jackpot 1 | 6/6 → Jackpot   |
+| 6/6 → Jackpot 2         | 5/6 → Giải Nhất |
+| 5/6 + bonus → Giải Nhất | 4/6 → Giải Nhì  |
+| 5/6 → Giải Nhì          | 3/6 → Giải Ba   |
+| 4/6 → Giải Ba           |                 |
+| 3/6 → Giải Tư           |                 |
+
+UI hiển thị bảng tổng kết (trúng bao nhiêu kỳ, giải cao nhất) + chi tiết từng kỳ có thể mở rộng.
+
+> **Lưu ý**: Đây là replay trên dữ liệu lịch sử, KHÔNG phải kết quả đặt cược thực tế.
+
 ## Tech Stack
 
 - [Next.js 16](https://nextjs.org/) (App Router, Server Components, ISR)

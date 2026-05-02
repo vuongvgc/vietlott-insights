@@ -4,10 +4,13 @@ import { FrequencyHeatmap } from "@/components/FrequencyHeatmap";
 import { HistoryTable } from "@/components/HistoryTable";
 import { Nav } from "@/components/Nav";
 import { NumberBalls } from "@/components/NumberBalls";
+import { SnapshotSummary } from "@/components/SnapshotSummary";
+import { SnapshotTable } from "@/components/SnapshotTable";
 import { StrategyCard } from "@/components/StrategyCard";
 import { Separator } from "@/components/ui/separator";
 import { backtestAll } from "@/lib/backtest";
 import { getDraws } from "@/lib/fetch-data";
+import { getSnapshots } from "@/lib/load-snapshots";
 import { ALL_STRATEGIES, runAllStrategies } from "@/lib/strategies";
 import { PRODUCTS, ProductConfig, type ProductKey } from "@/lib/types";
 
@@ -22,6 +25,7 @@ export async function ProductPage({ productKey }: ProductPageProps) {
 
 	const suggestions = runAllStrategies(draws, config);
 	const backtestResults = backtestAll(draws, ALL_STRATEGIES, config, 100);
+	const snapshots = getSnapshots(productKey);
 
 	return (
 		<div className="min-h-screen bg-background">
@@ -70,6 +74,31 @@ export async function ProductPage({ productKey }: ProductPageProps) {
 						))}
 					</div>
 				</section>
+
+				<Separator />
+
+				{/* Snapshot: lịch sử so sánh chiến lược */}
+				{snapshots.length > 0 && (
+					<section className="space-y-4">
+						<h2 className="text-xl font-semibold">
+							📊 Lịch sử so sánh — 6 chiến lược vs kết quả thực
+						</h2>
+						<p className="text-sm text-muted-foreground">
+							Mỗi kỳ, replay 6 chiến lược trên dữ liệu trước đó rồi so với kết
+							quả thực tế. Đây là bằng chứng thực — không chiến lược nào vượt
+							ngẫu nhiên về kỳ vọng.
+						</p>
+						<SnapshotSummary snapshots={snapshots} />
+						<details className="mt-4">
+							<summary className="cursor-pointer text-sm font-medium text-muted-foreground hover:text-foreground">
+								Xem chi tiết từng kỳ ({snapshots.length} kỳ gần nhất) ▾
+							</summary>
+							<div className="mt-3">
+								<SnapshotTable snapshots={snapshots} />
+							</div>
+						</details>
+					</section>
+				)}
 
 				<Separator />
 

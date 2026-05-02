@@ -63,11 +63,15 @@ src/
 │   ├── FrequencyHeatmap.tsx # Heatmap tần suất xuất hiện
 │   ├── BacktestTable.tsx   # Bảng kết quả backtest walk-forward
 │   ├── HistoryTable.tsx    # Bảng lịch sử các kỳ quay gần nhất
+│   ├── SnapshotSummary.tsx # Bảng tổng kết 6 chiến lược trên snapshot
+│   ├── SnapshotTable.tsx   # Chi tiết từng kỳ: gợi ý vs kết quả thực
 │   ├── Disclaimer.tsx      # Cảnh báo "đây chỉ là phân tích thống kê"
 │   └── ui/                 # shadcn/ui components (button, card, table, badge, separator, tabs)
 └── lib/
-    ├── types.ts            # ProductConfig, Draw, Suggestion, StrategyDef, BacktestResult, PRODUCTS map
+    ├── types.ts            # ProductConfig, Draw, Suggestion, StrategyDef, BacktestResult, PrizeRule, SnapshotEntry, PRODUCTS map
     ├── fetch-data.ts       # getDraws(productId) — fetch JSONL + ISR
+    ├── prizes.ts           # PrizeRules cho Power655/Mega645 + evaluatePrize()
+    ├── load-snapshots.ts   # Import static JSON từ data/snapshots/
     ├── analysis.ts         # frequency(), daysSinceLastAppearance(), filterRecentDraws(), topN(), ensureSpread()
     ├── backtest.ts         # walk-forward backtest trên 100 kỳ gần nhất
     └── strategies/
@@ -77,7 +81,18 @@ src/
         ├── balanced.ts     # Cân bằng — mix hot+cold + ensureSpread
         ├── cooccurrence.ts # Cặp đi cùng — lift trên toàn bộ lịch sử
         ├── unpopular.ts    # Tránh đám đông — né ngày sinh nhật, né liên tiếp
-        └── random.ts       # Ngẫu nhiên — baseline đối chứng
+        └── random.ts       # Ngẫu nhiên — seeded mulberry32 RNG, baseline đối chứng
+
+data/
+└── snapshots/
+    ├── power655.json       # 100 entries snapshot Power 6/55
+    └── mega645.json        # 100 entries snapshot Mega 6/45
+
+scripts/
+└── snapshot.ts             # Script tạo/cập nhật snapshot (npm run snapshot)
+
+.github/workflows/
+└── snapshot.yml            # GitHub Action chạy daily 23:00 VN
 ```
 
 ---
@@ -116,16 +131,19 @@ Mỗi strategy export `StrategyDef { id, name, description, generate(draws, conf
 
 Ghi lại WHY của các quyết định kiến trúc quan trọng:
 
-| Quyết định                                    | Lý do                                                                                                                                          |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Không dùng database**                       | App cá nhân, data có sẵn trên GitHub. ISR 1h đủ tươi. Thêm DB = thêm infra phải bảo trì → vi phạm triết lý vibe-code.                          |
-| **Fetch JSONL trực tiếp từ GitHub**           | Repo `vietvudanh/vietlott-data` cập nhật đều bởi cộng đồng. Raw URL ổn định, miễn phí, không cần API key.                                      |
-| **ISR 1 giờ thay vì SSG thuần**               | Data xổ số cập nhật vài lần/tuần. ISR 1h cân bằng giữa tươi mới và performance.                                                                |
-| **RSC (Server Components) cho data fetching** | Fetch ở server → không ship data-fetching code xuống client. Trang nhẹ hơn.                                                                    |
-| **Co-occurrence dùng toàn bộ lịch sử**        | Ban đầu dùng 300 kỳ gần nhất, nhưng với ~1340 kỳ Power 6/55 thì đủ lớn cho lift ổn định. Min-support 1% (~13 lần) lọc bớt noise do ngẫu nhiên. |
-| **Random strategy làm baseline**              | Trung thực: cho user thấy rằng các strategy khác KHÔNG thực sự tốt hơn random về kỳ vọng. Backtest minh chứng.                                 |
-| **Tiếng Việt cho UI**                         | App cá nhân của người Việt, dùng cho bản thân.                                                                                                 |
-| **Không dùng client-side fetch**              | Tránh loading state, tránh CORS, tận dụng RSC + ISR.                                                                                           |
+| Quyết định                                      | Lý do                                                                                                                                                                                    |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Không dùng database**                         | App cá nhân, data có sẵn trên GitHub. ISR 1h đủ tươi. Thêm DB = thêm infra phải bảo trì → vi phạm triết lý vibe-code.                                                                    |
+| **Fetch JSONL trực tiếp từ GitHub**             | Repo `vietvudanh/vietlott-data` cập nhật đều bởi cộng đồng. Raw URL ổn định, miễn phí, không cần API key.                                                                                |
+| **ISR 1 giờ thay vì SSG thuần**                 | Data xổ số cập nhật vài lần/tuần. ISR 1h cân bằng giữa tươi mới và performance.                                                                                                          |
+| **RSC (Server Components) cho data fetching**   | Fetch ở server → không ship data-fetching code xuống client. Trang nhẹ hơn.                                                                                                              |
+| **Co-occurrence dùng toàn bộ lịch sử**          | Ban đầu dùng 300 kỳ gần nhất, nhưng với ~1340 kỳ Power 6/55 thì đủ lớn cho lift ổn định. Min-support 1% (~13 lần) lọc bớt noise do ngẫu nhiên.                                           |
+| **Random strategy làm baseline**                | Trung thực: cho user thấy rằng các strategy khác KHÔNG thực sự tốt hơn random về kỳ vọng. Backtest minh chứng.                                                                           |
+| **Tiếng Việt cho UI**                           | App cá nhân của người Việt, dùng cho bản thân.                                                                                                                                           |
+| **Không dùng client-side fetch**                | Tránh loading state, tránh CORS, tận dụng RSC + ISR.                                                                                                                                     |
+| **Snapshot lưu vào repo + GitHub Action daily** | Cách B (lưu thật) thay vì replay mỗi lần render. Lịch sử cố định dù strategy thay đổi sau. GitHub Action chạy 23:00 VN hàng ngày, commit tự động. Không cần version strategy — tin user. |
+| **Random dùng seeded RNG (mulberry32)**         | Seed = drawId → deterministic, reproducible trong snapshot. Không dùng Math.random cho snapshot.                                                                                         |
+| **Bonus number cho Power 6/55**                 | JSONL lưu 7 số, số cuối là bonus. `fetch-data.ts` tách `Draw.bonus`. Dùng để phân biệt Jackpot 1/2 và Giải Nhất/Nhì.                                                                     |
 
 ---
 
@@ -145,6 +163,7 @@ Ghi lại WHY của các quyết định kiến trúc quan trọng:
 ```bash
 npm run dev           # Dev server (http://localhost:3000)
 npx next build        # Build production — CHẠY TRƯỚC KHI BÁO "XONG"
+npm run snapshot      # Tạo/cập nhật snapshot so sánh chiến lược (cũng chạy tự động qua GitHub Action)
 npx shadcn@latest add <component>  # Thêm shadcn UI component
 ```
 
@@ -159,7 +178,7 @@ npx shadcn@latest add <component>  # Thêm shadcn UI component
 - [ ] Share link bộ số
 - [ ] Thêm sản phẩm: Max 3D, Keno (nếu có data JSONL)
 - [ ] Dark mode
-- [ ] So sánh kết quả chiến lược theo thời gian (chart)
+- [x] ~~So sánh kết quả chiến lược theo thời gian~~ → đã triển khai qua Snapshot (SnapshotSummary + SnapshotTable)
 
 ---
 
@@ -171,6 +190,8 @@ npx shadcn@latest add <component>  # Thêm shadcn UI component
 - **Dòng trống trong JSONL** — `fetch-data.ts` đã filter, nhưng nếu thêm parser mới thì nhớ handle.
 - **Co-occurrence dùng toàn bộ lịch sử** — KHÔNG quay lại `slice(-300)`.
 - **`git config user.email`** đang là email công ty (`@manabie.com`) — cần đổi trước khi push lên repo cá nhân.
+- **Snapshot JSON files** (`data/snapshots/*.json`) được GitHub Action commit tự động. KHÔNG sửa tay. Muốn reset → xóa file → chạy `npm run snapshot`.
+- **Random strategy trong snapshot** dùng seeded RNG (seed = drawId). KHÔNG đổi hash function nếu muốn snapshot cũ reproducible.
 
 ---
 

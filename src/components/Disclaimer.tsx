@@ -5,7 +5,8 @@ export function Disclaimer() {
 			<p>
 				Đây là công cụ phân tích thống kê và giải trí. Không có thuật toán nào
 				thực sự tăng xác suất trúng xổ số — mỗi bộ số đều có xác suất bằng nhau.
-				Dữ liệu từ{" "}
+				Bảng so sánh chiến lược là replay trên dữ liệu lịch sử, KHÔNG phải kết
+				quả đặt cược thực tế. Dữ liệu từ{" "}
 				<a
 					href="https://github.com/vietvudanh/vietlott-data"
 					className="underline"
