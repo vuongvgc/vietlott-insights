@@ -1,5 +1,231 @@
 [
   {
+    "drawId": "01517",
+    "drawDate": "2026-05-31",
+    "actual": [
+      1,
+      12,
+      16,
+      21,
+      24,
+      41
+    ],
+    "suggestions": {
+      "hot": {
+        "numbers": [
+          2,
+          4,
+          16,
+          31,
+          42,
+          43
+        ]
+      },
+      "cold": {
+        "numbers": [
+          1,
+          5,
+          7,
+          19,
+          21,
+          33
+        ]
+      },
+      "balanced": {
+        "numbers": [
+          1,
+          5,
+          19,
+          31,
+          42,
+          43
+        ]
+      },
+      "cooccurrence": {
+        "numbers": [
+          4,
+          7,
+          25,
+          28,
+          35,
+          39
+        ]
+      },
+      "unpopular": {
+        "numbers": [
+          32,
+          34,
+          36,
+          38,
+          40,
+          42
+        ]
+      },
+      "random": {
+        "numbers": [
+          6,
+          23,
+          32,
+          33,
+          41,
+          42
+        ],
+        "seed": "01517"
+      }
+    },
+    "results": {
+      "hot": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "cold": {
+        "matched": 2,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "balanced": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "cooccurrence": {
+        "matched": 0,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "unpopular": {
+        "matched": 0,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "random": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      }
+    }
+  },
+  {
+    "drawId": "01516",
+    "drawDate": "2026-05-29",
+    "actual": [
+      13,
+      14,
+      24,
+      28,
+      30,
+      42
+    ],
+    "suggestions": {
+      "hot": {
+        "numbers": [
+          2,
+          4,
+          23,
+          31,
+          42,
+          43
+        ]
+      },
+      "cold": {
+        "numbers": [
+          1,
+          5,
+          19,
+          21,
+          30,
+          33
+        ]
+      },
+      "balanced": {
+        "numbers": [
+          1,
+          5,
+          30,
+          31,
+          42,
+          43
+        ]
+      },
+      "cooccurrence": {
+        "numbers": [
+          4,
+          7,
+          25,
+          28,
+          35,
+          39
+        ]
+      },
+      "unpopular": {
+        "numbers": [
+          32,
+          34,
+          36,
+          38,
+          40,
+          42
+        ]
+      },
+      "random": {
+        "numbers": [
+          3,
+          6,
+          14,
+          19,
+          25,
+          37
+        ],
+        "seed": "01516"
+      }
+    },
+    "results": {
+      "hot": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "cold": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "balanced": {
+        "matched": 2,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "cooccurrence": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "unpopular": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "random": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      }
+    }
+  },
+  {
     "drawId": "01515",
     "drawDate": "2026-05-27",
     "actual": [
@@ -11055,232 +11281,6 @@
       },
       "cooccurrence": {
         "matched": 1,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "unpopular": {
-        "matched": 1,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "random": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      }
-    }
-  },
-  {
-    "drawId": "01417",
-    "drawDate": "2025-10-10",
-    "actual": [
-      4,
-      5,
-      25,
-      34,
-      39,
-      43
-    ],
-    "suggestions": {
-      "hot": {
-        "numbers": [
-          14,
-          22,
-          28,
-          29,
-          30,
-          45
-        ]
-      },
-      "cold": {
-        "numbers": [
-          1,
-          15,
-          16,
-          20,
-          24,
-          44
-        ]
-      },
-      "balanced": {
-        "numbers": [
-          1,
-          15,
-          16,
-          28,
-          29,
-          45
-        ]
-      },
-      "cooccurrence": {
-        "numbers": [
-          4,
-          19,
-          25,
-          30,
-          35,
-          39
-        ]
-      },
-      "unpopular": {
-        "numbers": [
-          32,
-          34,
-          36,
-          38,
-          40,
-          42
-        ]
-      },
-      "random": {
-        "numbers": [
-          11,
-          27,
-          36,
-          41,
-          44,
-          45
-        ],
-        "seed": "01417"
-      }
-    },
-    "results": {
-      "hot": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "cold": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "balanced": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "cooccurrence": {
-        "matched": 3,
-        "matchedBonus": false,
-        "prizeTier": "third",
-        "tierLabel": "Giải Ba"
-      },
-      "unpopular": {
-        "matched": 1,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "random": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      }
-    }
-  },
-  {
-    "drawId": "01416",
-    "drawDate": "2025-10-08",
-    "actual": [
-      8,
-      10,
-      11,
-      18,
-      23,
-      32
-    ],
-    "suggestions": {
-      "hot": {
-        "numbers": [
-          14,
-          22,
-          26,
-          28,
-          29,
-          45
-        ]
-      },
-      "cold": {
-        "numbers": [
-          1,
-          15,
-          16,
-          20,
-          24,
-          44
-        ]
-      },
-      "balanced": {
-        "numbers": [
-          1,
-          15,
-          16,
-          28,
-          29,
-          45
-        ]
-      },
-      "cooccurrence": {
-        "numbers": [
-          4,
-          19,
-          25,
-          30,
-          35,
-          39
-        ]
-      },
-      "unpopular": {
-        "numbers": [
-          32,
-          34,
-          36,
-          38,
-          40,
-          42
-        ]
-      },
-      "random": {
-        "numbers": [
-          1,
-          7,
-          14,
-          15,
-          21,
-          43
-        ],
-        "seed": "01416"
-      }
-    },
-    "results": {
-      "hot": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "cold": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "balanced": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "cooccurrence": {
-        "matched": 0,
         "matchedBonus": false,
         "prizeTier": null,
         "tierLabel": ""
