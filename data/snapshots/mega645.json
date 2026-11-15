@@ -1,5 +1,118 @@
 [
   {
+    "drawId": "01589",
+    "drawDate": "2026-11-15",
+    "actual": [
+      6,
+      22,
+      24,
+      26,
+      40,
+      44
+    ],
+    "suggestions": {
+      "hot": {
+        "numbers": [
+          3,
+          9,
+          16,
+          31,
+          36,
+          41
+        ]
+      },
+      "cold": {
+        "numbers": [
+          6,
+          8,
+          12,
+          24,
+          27,
+          29
+        ]
+      },
+      "balanced": {
+        "numbers": [
+          8,
+          16,
+          24,
+          27,
+          36,
+          41
+        ]
+      },
+      "cooccurrence": {
+        "numbers": [
+          6,
+          10,
+          22,
+          29,
+          39,
+          44
+        ]
+      },
+      "unpopular": {
+        "numbers": [
+          32,
+          34,
+          36,
+          38,
+          40,
+          42
+        ]
+      },
+      "random": {
+        "numbers": [
+          5,
+          11,
+          21,
+          26,
+          28,
+          33
+        ],
+        "seed": "01589"
+      }
+    },
+    "results": {
+      "hot": {
+        "matched": 0,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "cold": {
+        "matched": 2,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "balanced": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "cooccurrence": {
+        "matched": 3,
+        "matchedBonus": false,
+        "prizeTier": "third",
+        "tierLabel": "Giải Ba"
+      },
+      "unpopular": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      },
+      "random": {
+        "matched": 1,
+        "matchedBonus": false,
+        "prizeTier": null,
+        "tierLabel": ""
+      }
+    }
+  },
+  {
     "drawId": "01588",
     "drawDate": "2026-11-13",
     "actual": [
@@ -11180,119 +11293,6 @@
       },
       "random": {
         "matched": 2,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      }
-    }
-  },
-  {
-    "drawId": "01489",
-    "drawDate": "2026-03-27",
-    "actual": [
-      5,
-      7,
-      13,
-      19,
-      38,
-      45
-    ],
-    "suggestions": {
-      "hot": {
-        "numbers": [
-          2,
-          20,
-          28,
-          31,
-          42,
-          43
-        ]
-      },
-      "cold": {
-        "numbers": [
-          3,
-          27,
-          30,
-          34,
-          39,
-          41
-        ]
-      },
-      "balanced": {
-        "numbers": [
-          3,
-          27,
-          28,
-          31,
-          41,
-          43
-        ]
-      },
-      "cooccurrence": {
-        "numbers": [
-          4,
-          19,
-          25,
-          28,
-          35,
-          39
-        ]
-      },
-      "unpopular": {
-        "numbers": [
-          32,
-          34,
-          36,
-          38,
-          40,
-          42
-        ]
-      },
-      "random": {
-        "numbers": [
-          4,
-          12,
-          21,
-          28,
-          34,
-          42
-        ],
-        "seed": "01489"
-      }
-    },
-    "results": {
-      "hot": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "cold": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "balanced": {
-        "matched": 0,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "cooccurrence": {
-        "matched": 1,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "unpopular": {
-        "matched": 1,
-        "matchedBonus": false,
-        "prizeTier": null,
-        "tierLabel": ""
-      },
-      "random": {
-        "matched": 0,
         "matchedBonus": false,
         "prizeTier": null,
         "tierLabel": ""
